@@ -3,8 +3,6 @@
 
 import numpy as np
 
-from hopfield import utils
-
 
 def sign(a):
     """Appy the bipolar step function to the given array.
