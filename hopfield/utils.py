@@ -2,16 +2,21 @@
 bipolar patterns.
 """
 
+import os
 import numpy as np
 from PIL import Image
 
 
-def load_binary_image(path, shape, threshold):
-    """Load an image file with the given path as a binary array with the given
-    shape. Binarization is accomplished by using the given 8-bit threshold.
+def load_images(images_dir, file_names, shape=(32, 32), threshold=100):
+    """Return a list of binary image arrays for the given image directory and
+    list of file names.
     """
-    im = np.array(Image.open(path).convert("LA").resize(shape))[:, :, 0]
-    return np.where(im < threshold, 0.0, 1.0)
+
+    def _load(path):
+        im = np.array(Image.open(path).convert("LA").resize(shape))[:, :, 0]
+        return np.where(im < threshold, 0.0, 1.0)
+
+    return [_load(os.path.join(images_dir, f)) for f in file_names]
 
 
 def display_image(im, shape=(256, 256)):
